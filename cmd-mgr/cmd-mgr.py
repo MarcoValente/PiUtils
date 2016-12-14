@@ -8,6 +8,7 @@ def LoadOptions():
     usage = "usage: %prog [options] arg"
     parser = OptionParser(usage=usage)
     parser.add_option("-v", "--verbose", default=False, action="store_true",help="Print debug information.")
+    parser.add_option(      "--sudo",    default=False, action="store_true",help="Set sudo rights.")
     parser.add_option("-d", "--dryRun",  default=False, action="store_true",help="Dry run flag.")
     (options, args) = parser.parse_args()
 
@@ -18,8 +19,9 @@ def LoadOptions():
         exit(1)
 
     options = {
-               'verbose':options.verbose,
-               'dry-run':options.dryRun,
+               'verbose': options.verbose,
+               'dry-run': options.dryRun,
+               'sudo':    options.sudo,
               }
 
     arguments = {
@@ -30,7 +32,9 @@ def LoadOptions():
 
 def ExecuteCommand(command):
     if opt['options']['dry-run']: print command_dic.command_dic[command]
-    resp = terminal.ExecuteAndStore(command_dic.command_dic[command],dry_run=opt['options']['dry-run'])
+    command_to_exec=command_dic.command_dic[command]
+    if opt['options']['sudo']: command_to_exec = 'sudo '+command_to_exec
+    resp = terminal.ExecuteAndStore(command_to_exec,dry_run=opt['options']['dry-run'])
     if not opt['options']['dry-run']: print resp
 
 def main():
