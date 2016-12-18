@@ -1,6 +1,7 @@
 import command_dic
 import interface
 import terminal
+import sys
 from optparse import OptionParser
 #import argcomplete
 
@@ -9,6 +10,7 @@ def LoadOptions():
     parser = OptionParser(usage=usage)
     parser.add_option("-v", "--verbose", default=False, action="store_true",help="Print debug information.")
     parser.add_option(      "--sudo",    default=False, action="store_true",help="Set sudo rights.")
+    parser.add_option(      "--loop",    default=False, action="store_true",help="Set infinite loop.")
     parser.add_option("-d", "--dryRun",  default=False, action="store_true",help="Dry run flag.")
     (options, args) = parser.parse_args()
 
@@ -22,6 +24,7 @@ def LoadOptions():
                'verbose': options.verbose,
                'dry-run': options.dryRun,
                'sudo':    options.sudo,
+               'loop':    options.loop,
               }
 
     arguments = {
@@ -34,8 +37,16 @@ def ExecuteCommand(command):
     if opt['options']['dry-run']: print command_dic.command_dic[command]
     command_to_exec=command_dic.command_dic[command]
     if opt['options']['sudo']: command_to_exec = 'sudo '+command_to_exec
-    resp = terminal.ExecuteAndStore(command_to_exec,dry_run=opt['options']['dry-run'])
-    if not opt['options']['dry-run']: print resp
+    execute=True
+    while execute:
+        if not opt['options']['dry-run']:
+            resp = terminal.ExecuteAndStore(command_to_exec,dry_run=opt['options']['dry-run'])
+            if opt['options']['loop']: 
+                resp += '\r'
+                sys.stdout.write(resp)
+                sys.stdout.flush()
+            else: print resp
+        if not opt['options']['loop']: execute=False
 
 def main():
     global opt
