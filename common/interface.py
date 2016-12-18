@@ -1,4 +1,3 @@
-global verbose
 verbose=False
 
 msg_colors={'green':'\033[92m',
