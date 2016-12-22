@@ -6,5 +6,6 @@ command_dic={
              'force_reboot':    'reboot -f',
              'raspi-config':    'raspi-config',
              'internet_config': 'ifconfig',
-             'display_usb':      'lsusb',
+             'display_usb':     'lsusb',
+             'display_disks':   'fdisk --list',
             }
