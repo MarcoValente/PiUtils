@@ -35,7 +35,10 @@ def LoadOptions():
 
 def ExecuteCommand(command):
     if opt['options']['dry-run']: print command_dic.command_dic[command]
-    command_to_exec=command_dic.command_dic[command]
+    if command in command_dic.command_dic.keys():
+        command_to_exec=command_dic.command_dic[command]
+    else:
+        interface.ErrorMessage("Impossible to find a command associated to \'" + command + "\'")        
     if opt['options']['sudo']: command_to_exec = 'sudo '+command_to_exec
     execute=True
     while execute:
