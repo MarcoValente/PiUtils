@@ -1,10 +1,10 @@
 CURRENTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CMDMGRDIR=$CURRENTDIR/cmd-mgr
-COMMONDIR=$CURRENTDIR/common
-SCRIPTSDIR=$CURRENTDIR/scripts
+export CMDMGRDIR=$CURRENTDIR/cmd-mgr
+export COMMONDIR=$CURRENTDIR/common
+export SCRIPTSDIR=$CURRENTDIR/scripts
 
-cat $SCRIPTSDIR/init/hellomarco.txt
+bash $SCRIPTSDIR/init/display_login_message.sh
 
 export PYTHONPATH="${PYTHONPATH}:$COMMONDIR"
 

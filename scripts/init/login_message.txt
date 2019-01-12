@@ -1,0 +1,2 @@
+Hello Marco.
+Welcome on Raspberry Pi 3 in Geneva!
